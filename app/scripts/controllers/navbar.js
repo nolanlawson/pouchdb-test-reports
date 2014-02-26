@@ -4,7 +4,7 @@ angular.module('pouchdbTestResultsApp')
   .controller('NavbarCtrl', function ($scope, $location) {
     $scope.menu = [{
       'title': 'Home',
-      'link': '/'
+      'link': '/index.html'
     }];
     
     $scope.isActive = function(route) {

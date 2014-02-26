@@ -9,12 +9,12 @@ angular.module('pouchdbTestResultsApp', [
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
+      .when('/pouch-test-reports/index.html', {
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/pouch-test-reports/index.html'
       });
       
     $locationProvider.html5Mode(true);
