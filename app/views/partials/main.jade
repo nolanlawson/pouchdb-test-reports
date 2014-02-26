@@ -2,19 +2,36 @@ div(ng-include='\'partials/navbar\'')
 
 .jumbotron
   h1
-    | 'Allo, 'Allo!
+    | PouchDB Test Reports
 
-  p.lead
-    <img src="images/yeoman.png" alt="I'm Yeoman">
-    br
-    | Always a pleasure scaffolding your apps.
   p
-    a.btn.btn-lg.btn-success(ng-href='#') Splendid!
+    | Knocking down bugs in &#22;
+    a(href='http://pouchdb.com') PouchDB
+    | , one browser at a time.
+
     
 .row.marketing
-  div(ng-repeat='thing in awesomeThings')
-    h4 {{thing.name}}
-    p {{thing.info}}
+  div
+    h2 Recently failed tests
+  table.table.table-striped
+    tr
+      th Parent
+      th Name
+      th Browser
+      th OS
+      th PouchDB
+      th Time
+    tr(ng-repeat='failedTest in failedTests')
+      td {{failedTest.value.parent}}
+      td {{failedTest.value.title}}
+      td {{failedTest.doc.browser.name}} {{failedTest.doc.browser.major}} &#22;
+        span.text-muted ({{failedTest.doc.browser.version}})
+      td {{failedTest.doc.os.name}}
+      td
+        a(href='#',ng-href="https://github.com/daleharvey/pouchdb/commit/{{failedTest.doc.pouchCommit}}")
+          | {{failedTest.doc.pouchVersion}} ({{getShortName(failedTest.doc.pouchCommit)}})
+      td {{failedTest.doc.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}
 
 .footer
-  p ♥ from the Yeoman team
+  p
+    a(href='https://github.com/nolanlawson/pouchdb-test-reports') Fork this on GitHub.

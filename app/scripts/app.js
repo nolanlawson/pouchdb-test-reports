@@ -4,7 +4,8 @@ angular.module('pouchdbTestResultsApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'angularMoment'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
