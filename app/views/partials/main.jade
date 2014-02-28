@@ -9,7 +9,7 @@ div(ng-include='\'partials/navbar\'')
     a(href='http://pouchdb.com') PouchDB
     | , one browser at a time.
 
-    
+
 .row.marketing
   div
     h2 Recently failed tests
@@ -21,7 +21,7 @@ div(ng-include='\'partials/navbar\'')
       th OS
       th PouchDB
       th Time
-    tr(ng-repeat='failedTest in failedTests')
+    tr(ng-repeat='failedTest in recentlyFailedTestsPager.results')
       td {{failedTest.value.parent}}
       td {{failedTest.value.title}}
       td {{failedTest.doc.browser.name}} {{failedTest.doc.browser.major}} &#22;
@@ -29,8 +29,50 @@ div(ng-include='\'partials/navbar\'')
       td {{failedTest.doc.os.name}}
       td
         a(href='#',ng-href="https://github.com/daleharvey/pouchdb/commit/{{failedTest.doc.pouchCommit}}")
-          | {{failedTest.doc.pouchVersion}} ({{getShortName(failedTest.doc.pouchCommit)}})
-      td {{failedTest.doc.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}
+          | {{failedTest.doc.pouchVersion}} ({{getShortCommitName(failedTest.doc.pouchCommit)}})
+      td {{failedTest.doc.time | amDateFormat:'MMM Do YYYY, h:mm a'}}
+    tr
+      td(colspan=2)
+        button.btn.btn-primary(ng-show='recentlyFailedTestsPager.hasMore',ng-click='recentlyFailedTestsPager.fetchNextPage()') More&hellip;
+
+  div
+    h2 Most failed tests
+  table.table.table-striped
+    tr
+      th Suite
+      th Name
+      th # times failed
+    tr(ng-repeat='testRun in mostFailedTestsPager.results')
+      td {{testRun.key.parent}}
+      td {{testRun.key.title}}
+      td {{testRun.value}}
+    tr
+      td(colspan=2)
+        button.btn.btn-primary(ng-show='mostFailedTestsPager.hasMore',ng-click='mostFailedTestsPager.fetchNextPage()') More&hellip;
+
+  div
+    h2 Test runs
+  table.table.table-striped
+    tr
+      th Browser
+      th OS
+      th # Passed
+      th # Failed
+      th PouchDB
+      th Time
+    tr(ng-repeat='testRun in testRunsPager.results',ng-hide="!testRun.value.browser")
+      td {{testRun.value.browser.name}} {{testRun.value.browser.major}} &#22;
+        span.text-muted ({{testRun.value.browser.version}})
+      td {{testRun.value.os.name}}
+      td {{testRun.value.numPassed}}
+      td {{testRun.value.numFailed}}
+      td
+        a(href='#',ng-href="https://github.com/daleharvey/pouchdb/commit/{{failedTest.doc.pouchCommit}}")
+          | {{testRun.value.pouchVersion}} ({{getShortCommitName(testRun.value.pouchCommit)}})
+      td {{testRun.value.time | amDateFormat:'MMM Do YYYY, h:mm a'}}
+    tr
+      td(colspan=2)
+        button.btn.btn-primary(ng-show='testRunsPager.hasMore',ng-click='testRunsPager.fetchNextPage()') More&hellip;
 
 .footer
   p
