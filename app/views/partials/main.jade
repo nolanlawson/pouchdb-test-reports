@@ -11,6 +11,49 @@ div(ng-include='\'partials/navbar\'')
 
 
 .row.marketing
+  div(ng-show="session")
+    h2 Summary of {{session._id}}
+  table.table.table-striped(ng-show="session")
+    tr
+      th Browser
+      th OS
+      th Engine
+      th Device
+      th # passed tests
+      th # failed tests
+      th PouchDB
+      th Time
+    tr
+      td {{session.browser.name}} {{session.browser.major}} &#22;
+        span.text-muted ({{session.browser.version}})
+      td {{session.os.name}} ({{session.os.version}})
+      td {{session.engine.name}} {{session.engine.version}}
+      td {{session.device && session.device.name}}
+      td {{session.numPassed}}
+      td {{session.numFailed}}
+      td
+        a(href='#',ng-href="https://github.com/daleharvey/pouchdb/commit/{{failedTest.doc.pouchCommit}}")
+          | {{session.pouchVersion}} ({{getShortCommitName(session.pouchCommit)}})
+      td {{session.time | amDateFormat:'MMM Do YYYY, h:mm a'}}
+  div(ng-show="session")
+    h2 Results for {{session._id}}
+  table.table.table-striped(ng-show="session")
+    tr
+      th Parent
+      th Name
+      th Status
+      th Time
+    tr(ng-repeat='test in bySessionPager.results')
+      td {{test.doc.parent}}
+      td {{test.doc.title}}
+      td
+        span(ng-class='{"alert-info" : test.doc.state=="passed","alert-warning" : test.doc.state=="failed"}')
+          | {{test.doc.state}}
+      td {{test.doc.time | amDateFormat:'MMM Do YYYY, h:mm a'}}
+    tr
+      td(colspan=2)
+        button.btn.btn-primary(ng-show='bySessionPager.hasMore',ng-click='bySessionPager.fetchNextPage()') More&hellip;
+
   div
     h2 Recently failed tests
   table.table.table-striped

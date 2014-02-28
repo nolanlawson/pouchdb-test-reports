@@ -4,6 +4,8 @@
  */
 angular.module('pouchdbTestResultsApp')
   .factory('CouchViewPager', function ($http) {
+    'use strict';
+
     function CouchViewPager(url, params) {
       var self = this;
       self.url = url;
@@ -37,6 +39,6 @@ angular.module('pouchdbTestResultsApp')
         }).error(function (err) {
           console.log(err);
         });
-    }
+    };
     return CouchViewPager;
   });
